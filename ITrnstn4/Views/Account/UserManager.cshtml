@@ -1,0 +1,53 @@
+﻿<form method="post" asp-action="BulkAction" class="container mt-4">
+    <div class="d-flex gap-2 mb-4">
+        <button type="submit" name="action" value="block" class="btn btn-warning">
+            <i class="fas fa-lock"></i> Block
+        </button>
+        <button type="submit" name="action" value="unblock" class="btn btn-success">
+            <i class="fas fa-unlock"></i>
+        </button>
+        <button type="submit" name="action" value="delete" class="btn btn-danger">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="text-center">
+                        <input type="checkbox" id="selectAll" />
+                    </th>
+                    <th>NICKNAME</th>
+                    <th>EMAIL</th>
+                    <th>DATE OF REGISTRATION</th>
+                    <th>DATE OF THE LAST SESSION</th>
+                    <th>STATUS</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td class="text-center">
+                            <input type="checkbox" name="selectedUsers" value="@user.Id" />
+                        </td>
+                        <td>@user.Nickname</td>
+                        <td>@user.Email</td>
+                        <td>@user.RegistrationDate.ToString("yyyy-MM-dd")</td>
+                        <td>@user.LastLoginDate.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>@user.Status</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</form>
+
+<script>
+    document.getElementById("selectAll").onclick = function () {
+        var checkboxes = document.querySelectorAll('input[name="selectedUsers"]');
+        for (var checkbox of checkboxes) {
+            checkbox.checked = this.checked;
+        }
+    }
+</script>

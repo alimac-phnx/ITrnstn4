@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ITrnstn4</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ITrnstn4.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="@Url.Action("Index", "Home")">ITrnstn4</a>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            @{
+                                string currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+                                string currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+
+                                if (User.Identity.IsAuthenticated)
+                                {
+                                    <a class="nav-link" href="@Url.Action("UserManager", "Account")">Hello, @User.Identity.Name!</a>
+                                    <li>
+                                        <form method="post" action="@Url.Action("Logout", "Account")" class="form-inline">
+                                            <button type="submit" class="nav-link btn btn-link" style="cursor: pointer;">Log out</button>
+                                        </form>
+                                    </li>
+                                }
+                                else if (currentController == "Account" && currentAction == "Register")
+                                {
+                                    <a class="nav-link" href="@Url.Action("Login", "Account")">Log in</a>
+                                }
+                                else if (currentController == "Account" && currentAction == "Login")
+                                {
+                                    <a class="nav-link" href="@Url.Action("Register", "Account")">Register</a>
+                                }
+                            }    
+                        </li>   
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - ITrnstn4 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
